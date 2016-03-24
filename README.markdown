@@ -1,13 +1,12 @@
 # The Official raywenderlich.com Swift Style Guide.
 
-This style guide is different from others you may see, because the focus is centered on readability for print and the web. We created this style guide to keep the code in our books, tutorials, and starter kits nice and consistent — even though we have many different authors working on the books.
+This styleguide is heavily based on the style guide for [raywenderlich.com](https://github.com/raywenderlich/swift-style-guide) and a needed customization.
+Thanks to all [contributers](#credits).
 
-Our overarching goals are conciseness, readability, and simplicity.
-
-Writing Objective-C? Check out our [Objective-C Style Guide](https://github.com/raywenderlich/objective-c-style-guide) too.
 
 ## Table of Contents
 
+* [Language](#language)
 * [Naming](#naming)
   * [Prose](#prose)
   * [Class Prefixes](#class-prefixes)
@@ -27,10 +26,23 @@ Writing Objective-C? Check out our [Objective-C Style Guide](https://github.com/
   * [Syntactic Sugar](#syntactic-sugar)
 * [Control Flow](#control-flow)
 * [Semicolons](#semicolons)
-* [Language](#language)
-* [Copyright Statement](#copyright-statement)
-* [Smiley Face](#smiley-face)
+* [Background](#background)
 * [Credits](#credits)
+
+
+## Language
+
+Use US English spelling to match Apple's API.
+
+**Preferred:**
+```swift
+let color = "red"
+```
+
+**Not Preferred:**
+```swift
+let colour = "red"
+```
 
 
 ## Naming
@@ -42,7 +54,8 @@ Use descriptive names with camel case for classes, methods, variables, etc. Clas
 ```swift
 private let maximumWidgetCount = 100
 
-class WidgetContainer {
+class WidgetContainer
+{
   var widgetButton: UIButton
   let widgetHeightPercentage = 0.85
 }
@@ -53,7 +66,8 @@ class WidgetContainer {
 ```swift
 let MAX_WIDGET_COUNT = 100
 
-class app_widgetContainer {
+class app_widgetContainer
+{
   var wBut: UIButton
   let wHeightPct = 0.85
 }
@@ -75,18 +89,21 @@ timedAction(afterDelay: 1.0, perform: someOtherAction)
 For methods, follow the standard Apple convention of referring to the first parameter in the method name:
 
 ```swift
-class Counter {
+class Counter
+{
   func combineWith(otherCounter: Counter, options: Dictionary?) { ... }
   func incrementBy(amount: Int) { ... }
 }
 ```
+
 
 ### Enumerations
 
 Use UpperCamelCase for enumeration values:
 
 ```swift
-enum Shape {
+enum Shape
+{
   case Rectangle
   case Square
   case Triangle
@@ -123,28 +140,29 @@ let myClass = MyModule.UsefulClass()
 
 ## Spacing
 
-* Indent using 2 spaces rather than tabs to conserve space and help prevent line wrapping. Be sure to set this preference in Xcode and in the Project settings as shown below:
+* **???*** Indent using 2 spaces rather than tabs to conserve space and help prevent line wrapping. Be sure to set this preference in Xcode and in the Project settings as shown below:
 
   ![Xcode indent settings](screens/indentation.png)
-  
+
   ![Xcode Project settings](screens/project_settings.png)
 
-* Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open on the same line as the statement but close on a new line.
+* Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open and close on a new line.
 * Tip: You can re-indent by selecting some code (or ⌘A to select all) and then Control-I (or Editor\Structure\Re-Indent in the menu). Some of the Xcode template code will have 4-space tabs hard coded, so this is a good way to fix that.
 
 **Preferred:**
 ```swift
-if user.isHappy {
+if user.isHappy
+{
   // Do something
-} else {
+} else
+{
   // Do something else
 }
 ```
 
 **Not Preferred:**
 ```swift
-if user.isHappy
-{
+if user.isHappy {
     // Do something
 }
 else {
@@ -153,6 +171,7 @@ else {
 ```
 
 * There should be exactly one blank line between methods to aid in visual clarity and organization. Whitespace within methods should separate functionality, but having too many sections in a method often means you should refactor into several methods.
+
 
 ## Comments
 
@@ -176,37 +195,46 @@ Sometimes, things should be structs but need to conform to `AnyObject` or are hi
 Here's an example of a well-styled class definition:
 
 ```swift
-class Circle: Shape {
+class Circle: Shape
+{
   var x: Int, y: Int
   var radius: Double
-  var diameter: Double {
-    get {
+  var diameter: Double
+  {
+    get
+    {
       return radius * 2
     }
-    set {
+    set
+    {
       radius = newValue / 2
     }
   }
 
-  init(x: Int, y: Int, radius: Double) {
+  init(x: Int, y: Int, radius: Double)
+  {
     self.x = x
     self.y = y
     self.radius = radius
   }
 
-  convenience init(x: Int, y: Int, diameter: Double) {
+  convenience init(x: Int, y: Int, diameter: Double)
+  {
     self.init(x: x, y: y, radius: diameter / 2)
   }
 
-  func describe() -> String {
+  func describe() -> String
+  {
     return "I am a circle at \(centerString()) with an area of \(computeArea())"
   }
 
-  override func computeArea() -> Double {
+  override func computeArea() -> Double
+  {
     return M_PI * radius * radius
   }
 
-  private func centerString() -> String {
+  private func centerString() -> String
+  {
     return "(\(x),\(y))"
   }
 }
@@ -216,9 +244,8 @@ The example above demonstrates the following style guidelines:
 
  + Specify types for properties, variables, constants, argument declarations and other statements with a space after the colon but not before, e.g. `x: Int`, and `Circle: Shape`.
  + Define multiple variables and structures on a single line if they share a common purpose / context.
- + Indent getter and setter definitions and property observers.
+ + **???** Indent getter and setter definitions and property observers.
  + Don't add modifiers such as `internal` when they're already the default. Similarly, don't repeat the access modifier when overriding a method.
-
 
 ### Use of Self
 
@@ -227,14 +254,17 @@ For conciseness, avoid using `self` since Swift does not require it to access an
 Use `self` when required to differentiate between property names and arguments in initializers, and when referencing properties in closure expressions (as required by the compiler):
 
 ```swift
-class BoardLocation {
+class BoardLocation
+{
   let row: Int, column: Int
 
-  init(row: Int, column: Int) {
+  init(row: Int, column: Int)
+  {
     self.row = row
     self.column = column
-    
-    let closure = {
+
+    let closure =
+    {
       println(self.row)
     }
   }
@@ -249,17 +279,24 @@ Also, don't forget the `// MARK: -` comment to keep things well-organized!
 
 **Preferred:**
 ```swift
-class MyViewcontroller: UIViewController {
+class MyViewcontroller: UIViewController
+{
   // class stuff here
 }
 
+
 // MARK: - UITableViewDataSource
-extension MyViewcontroller: UITableViewDataSource {
+
+extension MyViewcontroller: UITableViewDataSource
+{
   // table view data source methods
 }
 
+
 // MARK: - UIScrollViewDelegate
-extension MyViewcontroller: UIScrollViewDelegate {
+
+extension MyViewcontroller: UIScrollViewDelegate
+{
   // scroll view delegate methods
 }
 ```
@@ -277,26 +314,31 @@ For conciseness, if a computed property is read-only, omit the get clause. The g
 
 **Preferred:**
 ```swift
-var diameter: Double {
+var diameter: Double
+{
   return radius * 2
 }
 ```
 
 **Not Preferred:**
 ```swift
-var diameter: Double {
-  get {
+var diameter: Double
+{
+  get
+  {
     return radius * 2
   }
 }
 ```
 
+
 ## Function Declarations
 
-Keep short function declarations on one line including the opening brace:
+Keep short function declarations on one line:
 
 ```swift
-func reticulateSplines(spline: [Double]) -> Bool {
+func reticulateSplines(spline: [Double]) -> Bool
+{
   // reticulate code goes here
 }
 ```
@@ -305,7 +347,8 @@ For functions with long signatures, add line breaks at appropriate points and ad
 
 ```swift
 func reticulateSplines(spline: [Double], adjustmentFactor: Double,
-    translateConstant: Int, comment: String) -> Bool {
+    translateConstant: Int, comment: String) -> Bool
+{
   // reticulate code goes here
 }
 ```
@@ -321,11 +364,12 @@ UIView.animateWithDuration(1.0) {
   self.myView.alpha = 0
 }
 
-UIView.animateWithDuration(1.0,
-  animations: {
+UIView.animateWithDuration(1.0, animations:
+  {
     self.myView.alpha = 0
   },
-  completion: { finished in
+  completion:
+  { finished in
     self.myView.removeFromSuperview()
   }
 )
@@ -333,23 +377,26 @@ UIView.animateWithDuration(1.0,
 
 **Not Preferred:**
 ```swift
-UIView.animateWithDuration(1.0, animations: {
-  self.myView.alpha = 0
-})
-
-UIView.animateWithDuration(1.0,
-  animations: {
+UIView.animateWithDuration(1.0, animations:
+  {
     self.myView.alpha = 0
-  }) { f in
+  })
+
+UIView.animateWithDuration(1.0, animations:
+  {
+    self.myView.alpha = 0
+  })
+  { f in
     self.myView.removeFromSuperview()
-}
+  }
 ```
 
-For single-expression closures where the context is clear, use implicit returns:
+Even for single-expression closures where the context is clear, use explicit returns:
 
 ```swift
-attendeeList.sort { a, b in
-  a > b
+attendeeList.sort
+{ a, b in
+  return a > b
 }
 ```
 
@@ -378,7 +425,6 @@ Constants are defined using the `let` keyword, and variables with the `var` keyw
 
 **Tip:** A good technique is to define everything using `let` and only change it to `var` if the compiler complains!
 
-
 ### Optionals
 
 Declare variables and function return types as optional with `?` where a nil value is acceptable.
@@ -394,7 +440,8 @@ self.textContainer?.textLabel?.setNeedsDisplay()
 Use optional binding when it's more convenient to unwrap once and perform multiple operations:
 
 ```swift
-if let textContainer = self.textContainer {
+if let textContainer = self.textContainer
+{
   // do many things with textContainer
 }
 ```
@@ -409,7 +456,8 @@ var subview: UIView?
 var volume: Double?
 
 // later on...
-if let subview = subview, volume = volume {
+if let subview = subview, volume = volume
+{
   // do something with unwrapped subview and volume
 }
 ```
@@ -419,8 +467,10 @@ if let subview = subview, volume = volume {
 var optionalSubview: UIView?
 var volume: Double?
 
-if let unwrappedSubview = optionalSubview {
-  if let realVolume = volume {
+if let unwrappedSubview = optionalSubview
+{
+  if let realVolume = volume
+  {
     // do something with unwrappedSubview and realVolume
   }
 }
@@ -465,7 +515,6 @@ var names: [String] = []
 
 **NOTE**: Following this guideline means picking descriptive names is even more important than before.
 
-
 ### Syntactic Sugar
 
 Prefer the shortcut versions of type declarations over the full generics syntax.
@@ -491,22 +540,26 @@ Prefer the `for-in` style of `for` loop over the `for-condition-increment` style
 
 **Preferred:**
 ```swift
-for _ in 0..<3 {
+for _ in 0..<3
+{
   println("Hello three times")
 }
 
-for (index, person) in attendeeList.enumerate() {
+for (index, person) in attendeeList.enumerate()
+{
   println("\(person) is at position #\(index)")
 }
 ```
 
 **Not Preferred:**
 ```swift
-for var i = 0; i < 3; i++ {
+for var i = 0; i < 3; i++
+{
   println("Hello three times")
 }
 
-for var i = 0; i < attendeeList.count; i++ {
+for var i = 0; i < attendeeList.count; i++
+{
   let person = attendeeList[i]
   println("\(person) is at position #\(i)")
 }
@@ -533,65 +586,19 @@ let swift = "not a scripting language";
 
 **NOTE**: Swift is very different to JavaScript, where omitting semicolons is [generally considered unsafe](http://stackoverflow.com/questions/444080/do-you-recommend-using-semicolons-after-every-statement-in-javascript)
 
-## Language
 
-Use US English spelling to match Apple's API.
+## Background
 
-**Preferred:**
-```swift
-let color = "red"
-```
+Here are some of the documents from Apple that informed the style guide. If something isn't mentioned here, it's probably covered in great detail in one of these:
 
-**Not Preferred:**
-```swift
-let colour = "red"
-```
-
-## Copyright Statement
-
-The following copyright statement should be included at the top of every source
-file:
-
-    /**
-     * Copyright (c) 2016 Razeware LLC
-     *
-     * Permission is hereby granted, free of charge, to any person obtaining a copy
-     * of this software and associated documentation files (the "Software"), to deal
-     * in the Software without restriction, including without limitation the rights
-     * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-     * copies of the Software, and to permit persons to whom the Software is
-     * furnished to do so, subject to the following conditions:
-     *
-     * The above copyright notice and this permission notice shall be included in
-     * all copies or substantial portions of the Software.
-     *
-     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-     * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-     * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-     * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-     * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-     * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-     * THE SOFTWARE.
-     */
-
-## Smiley Face
-
-Smiley faces are a very prominent style feature of the raywenderlich.com site! It is very important to have the correct smile signifying the immense amount of happiness and excitement for the coding topic. The closing square bracket `]` is used because it represents the largest smile able to be captured using ASCII art. A closing parenthesis `)` creates a half-hearted smile, and thus is not preferred.
-
-**Preferred:**
-```
-:]
-```
-
-**Not Preferred:**
-```
-:)
-```  
+* [The Swift Programming Language](https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/index.html)
+* [Using Swift with Cocoa and Objective-C](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/index.html)
+* [Swift Standard Library Reference](https://developer.apple.com/library/prerelease/ios/documentation/General/Reference/SwiftStandardLibraryReference/index.html)
 
 
 ## Credits
 
-This style guide is a collaborative effort from the most stylish raywenderlich.com team members: 
+This style guide is a collaborative effort from the most stylish raywenderlich.com team members:
 
 * [Jawwad Ahmad](https://github.com/jawwad)
 * [Soheil Moayedi Azarpour](https://github.com/moayes)
@@ -615,11 +622,3 @@ This style guide is a collaborative effort from the most stylish raywenderlich.c
 * [Chris Wagner](https://github.com/cwagdev)
 * [Ray Wenderlich](https://github.com/rwenderlich)
 * [Jack Wu](https://github.com/jackwu95)
-
-Hat tip to [Nicholas Waynik](https://github.com/ndubbs) and the [Objective-C Style Guide](https://github.com/raywenderlich/objective-c-style-guide) team!
-
-We also drew inspiration from Apple’s reference material on Swift:
-
-* [The Swift Programming Language](https://developer.apple.com/library/prerelease/ios/documentation/swift/conceptual/swift_programming_language/index.html)
-* [Using Swift with Cocoa and Objective-C](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/BuildingCocoaApps/index.html)
-* [Swift Standard Library Reference](https://developer.apple.com/library/prerelease/ios/documentation/General/Reference/SwiftStandardLibraryReference/index.html)
