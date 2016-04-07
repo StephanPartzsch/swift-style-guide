@@ -1,4 +1,4 @@
-# The Official raywenderlich.com Swift Style Guide.
+# IVU Swift Style Guide
 
 This styleguide is heavily based on the style guide for [raywenderlich.com](https://github.com/raywenderlich/swift-style-guide) and a needed customization.
 Thanks to all [contributers](#credits).
@@ -10,6 +10,7 @@ Thanks to all [contributers](#credits).
 * [Naming](#naming)
   * [Prose](#prose)
   * [Class Prefixes](#class-prefixes)
+  * [Localization](#localization)
 * [Spacing](#spacing)
 * [Comments](#comments)
 * [Classes and Structures](#classes-and-structures)
@@ -54,8 +55,7 @@ Use descriptive names with camel case for classes, methods, variables, etc. Clas
 ```swift
 private let maximumWidgetCount = 100
 
-class WidgetContainer
-{
+class WidgetContainer {
   var widgetButton: UIButton
   let widgetHeightPercentage = 0.85
 }
@@ -89,8 +89,7 @@ timedAction(afterDelay: 1.0, perform: someOtherAction)
 For methods, follow the standard Apple convention of referring to the first parameter in the method name:
 
 ```swift
-class Counter
-{
+class Counter {
   func combineWith(otherCounter: Counter, options: Dictionary?) { ... }
   func incrementBy(amount: Int) { ... }
 }
@@ -102,8 +101,7 @@ class Counter
 Use UpperCamelCase for enumeration values:
 
 ```swift
-enum Shape
-{
+enum Shape {
   case Rectangle
   case Square
   case Triangle
@@ -137,36 +135,52 @@ import SomeModule
 let myClass = MyModule.UsefulClass()
 ```
 
+### Localization
+
+Localization keys should be named as separate words with each word starting uppercase.
+
+**Preferred:**
+
+```
+"No Network Available Message" = "An error occurred while connection through the network.";
+```
+
+**Not Preferred:**
+
+```
+"noNetworkAvailableMessage" = "An error occurred while connection through the network.";
+```
+
 
 ## Spacing
 
-* **???*** Indent using 2 spaces rather than tabs to conserve space and help prevent line wrapping. Be sure to set this preference in Xcode and in the Project settings as shown below:
+* Indent using 1 tab rather than spaces. Be sure to set this preference in Xcode and in the Project settings as shown below:
 
   ![Xcode indent settings](screens/indentation.png)
 
   ![Xcode Project settings](screens/project_settings.png)
 
-* Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open and close on a new line.
+* Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open in the same line and close on a new line.
 * Tip: You can re-indent by selecting some code (or ⌘A to select all) and then Control-I (or Editor\Structure\Re-Indent in the menu). Some of the Xcode template code will have 4-space tabs hard coded, so this is a good way to fix that.
 
 **Preferred:**
 ```swift
-if user.isHappy
-{
+if user.isHappy {
   // Do something
-} else
-{
+} else {
   // Do something else
 }
 ```
 
 **Not Preferred:**
 ```swift
-if user.isHappy {
-    // Do something
+if user.isHappy
+{
+  // Do something
 }
-else {
-    // Do something else
+else
+{
+  // Do something else
 }
 ```
 
@@ -195,46 +209,37 @@ Sometimes, things should be structs but need to conform to `AnyObject` or are hi
 Here's an example of a well-styled class definition:
 
 ```swift
-class Circle: Shape
-{
+class Circle: Shape {
   var x: Int, y: Int
   var radius: Double
-  var diameter: Double
-  {
-    get
-    {
+  var diameter: Double {
+    get {
       return radius * 2
     }
-    set
-    {
+    set {
       radius = newValue / 2
     }
   }
 
-  init(x: Int, y: Int, radius: Double)
-  {
+  init(x: Int, y: Int, radius: Double) {
     self.x = x
     self.y = y
     self.radius = radius
   }
 
-  convenience init(x: Int, y: Int, diameter: Double)
-  {
+  convenience init(x: Int, y: Int, diameter: Double) {
     self.init(x: x, y: y, radius: diameter / 2)
   }
 
-  func describe() -> String
-  {
+  func describe() -> String {
     return "I am a circle at \(centerString()) with an area of \(computeArea())"
   }
 
-  override func computeArea() -> Double
-  {
+  override func computeArea() -> Double {
     return M_PI * radius * radius
   }
 
-  private func centerString() -> String
-  {
+  private func centerString() -> String {
     return "(\(x),\(y))"
   }
 }
@@ -244,7 +249,7 @@ The example above demonstrates the following style guidelines:
 
  + Specify types for properties, variables, constants, argument declarations and other statements with a space after the colon but not before, e.g. `x: Int`, and `Circle: Shape`.
  + Define multiple variables and structures on a single line if they share a common purpose / context.
- + **???** Indent getter and setter definitions and property observers.
+ + Indent getter and setter definitions and property observers.
  + Don't add modifiers such as `internal` when they're already the default. Similarly, don't repeat the access modifier when overriding a method.
 
 ### Use of Self
@@ -254,17 +259,14 @@ For conciseness, avoid using `self` since Swift does not require it to access an
 Use `self` when required to differentiate between property names and arguments in initializers, and when referencing properties in closure expressions (as required by the compiler):
 
 ```swift
-class BoardLocation
-{
+class BoardLocation {
   let row: Int, column: Int
 
-  init(row: Int, column: Int)
-  {
+  init(row: Int, column: Int) {
     self.row = row
     self.column = column
 
-    let closure =
-    {
+    let closure = {
       println(self.row)
     }
   }
@@ -279,31 +281,29 @@ Also, don't forget the `// MARK: -` comment to keep things well-organized!
 
 **Preferred:**
 ```swift
-class MyViewcontroller: UIViewController
-{
+class MyViewcontroller: UIViewController {
   // class stuff here
 }
 
 
 // MARK: - UITableViewDataSource
 
-extension MyViewcontroller: UITableViewDataSource
-{
+extension MyViewcontroller: UITableViewDataSource {
   // table view data source methods
 }
 
 
 // MARK: - UIScrollViewDelegate
 
-extension MyViewcontroller: UIScrollViewDelegate
-{
+extension MyViewcontroller: UIScrollViewDelegate {
   // scroll view delegate methods
 }
 ```
 
 **Not Preferred:**
 ```swift
-class MyViewcontroller: UIViewController, UITableViewDataSource, UIScrollViewDelegate {
+class MyViewcontroller: UIViewController, UITableViewDataSource, UIScrollViewDelegate
+{
   // all methods
 }
 ```
@@ -314,8 +314,7 @@ For conciseness, if a computed property is read-only, omit the get clause. The g
 
 **Preferred:**
 ```swift
-var diameter: Double
-{
+var diameter: Double {
   return radius * 2
 }
 ```
@@ -337,8 +336,7 @@ var diameter: Double
 Keep short function declarations on one line:
 
 ```swift
-func reticulateSplines(spline: [Double]) -> Bool
-{
+func reticulateSplines(spline: [Double]) -> Bool {
   // reticulate code goes here
 }
 ```
@@ -347,8 +345,7 @@ For functions with long signatures, add line breaks at appropriate points and ad
 
 ```swift
 func reticulateSplines(spline: [Double], adjustmentFactor: Double,
-    translateConstant: Int, comment: String) -> Bool
-{
+    translateConstant: Int, comment: String) -> Bool {
   // reticulate code goes here
 }
 ```
@@ -364,12 +361,10 @@ UIView.animateWithDuration(1.0) {
   self.myView.alpha = 0
 }
 
-UIView.animateWithDuration(1.0, animations:
-  {
+UIView.animateWithDuration(1.0, animations: {
     self.myView.alpha = 0
   },
-  completion:
-  { finished in
+  completion: { finished in
     self.myView.removeFromSuperview()
   }
 )
@@ -394,8 +389,7 @@ UIView.animateWithDuration(1.0, animations:
 Even for single-expression closures where the context is clear, use explicit returns:
 
 ```swift
-attendeeList.sort
-{ a, b in
+attendeeList.sort { a, b in
   return a > b
 }
 ```
@@ -440,8 +434,7 @@ self.textContainer?.textLabel?.setNeedsDisplay()
 Use optional binding when it's more convenient to unwrap once and perform multiple operations:
 
 ```swift
-if let textContainer = self.textContainer
-{
+if let textContainer = self.textContainer {
   // do many things with textContainer
 }
 ```
@@ -456,8 +449,7 @@ var subview: UIView?
 var volume: Double?
 
 // later on...
-if let subview = subview, volume = volume
-{
+if let subview = subview, volume = volume {
   // do something with unwrapped subview and volume
 }
 ```
@@ -540,13 +532,11 @@ Prefer the `for-in` style of `for` loop over the `for-condition-increment` style
 
 **Preferred:**
 ```swift
-for _ in 0..<3
-{
+for _ in 0..<3 {
   println("Hello three times")
 }
 
-for (index, person) in attendeeList.enumerate()
-{
+for (index, person) in attendeeList.enumerate() {
   println("\(person) is at position #\(index)")
 }
 ```
